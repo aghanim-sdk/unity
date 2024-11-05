@@ -354,8 +354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d61ddfac6161b0440bf84f4740cb1075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _webAppWrapper: {fileID: 357623314}
-  _webPlatformClient: {fileID: 1468692729}
+  AghanimSDK: {fileID: 357623314}
   _getItemsButton: {fileID: 582901379}
   _itemPrefab: {fileID: 4063879905027091887, guid: 462e0c386a29f6d4ab15f653ee134473, type: 3}
   _itemExternalPrefab: {fileID: 1657387409873550751, guid: 01c19a5079228a842b0b0322031b0abd, type: 3}
@@ -735,7 +734,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918500f432f646b39341c3450c397715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _webPlatformClient: {fileID: 1468692729}
   _tokenText: {fileID: 627976938}
 --- !u!1 &972197846
 GameObject:
@@ -1134,17 +1132,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1468692729 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 101575405959709133, guid: ab069ab93dea28a4cab74306aabce972, type: 3}
-  m_PrefabInstance: {fileID: 6520095688863352044}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70473071de8089f44a1b4aeed2713fb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1480381579
 GameObject:
   m_ObjectHideFlags: 0
@@ -1568,7 +1555,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4109254605815492477, guid: ab069ab93dea28a4cab74306aabce972, type: 3}
       propertyPath: m_Name
-      value: WebAppWrapper
+      value: AghanimSDK
       objectReference: {fileID: 0}
     - target: {fileID: 8485020560781628814, guid: ab069ab93dea28a4cab74306aabce972, type: 3}
       propertyPath: m_LocalPosition.x

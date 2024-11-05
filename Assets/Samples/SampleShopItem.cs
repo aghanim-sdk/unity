@@ -1,7 +1,7 @@
 ﻿using System;
+using Aghanim.Responses;
 using UnityEngine;
 using UnityEngine.UI;
-using WebPlatform.Responses;
 
 namespace Samples
 {

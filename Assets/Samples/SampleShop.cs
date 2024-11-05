@@ -1,17 +1,13 @@
 using System.Collections.Generic;
+using Aghanim.Components;
+using Aghanim.Responses;
 using UnityEngine;
 using UnityEngine.UI;
-using WebPlatform.Components;
-using WebPlatform.Responses;
 
 namespace Samples 
 {
     public class SampleShop : MonoBehaviour 
     {
-        [SerializeField]
-        private WebAppWrapper _webAppWrapper;
-        [SerializeField]
-        private WebPlatformClient _webPlatformClient;
         [SerializeField]
         private Button _getItemsButton;
         [SerializeField]
@@ -30,7 +26,7 @@ namespace Samples
 
         private void GetItems()
         {
-            _webAppWrapper.GetItems(OnItemsReceived);
+            AghanimSDK.GetItems(OnItemsReceived);
         }
 
         private void OnItemsReceived(ItemList itemList)
@@ -42,12 +38,12 @@ namespace Samples
 
         private void BuyItem(string sku) 
         {
-            _webAppWrapper.PurchaseItem(sku);
+            AghanimSDK.PurchaseItem(sku);
         }
         
         private void BuyExternalItem(string sku) 
         {
-            Application.OpenURL(_webPlatformClient.GetLink(sku));
+            Application.OpenURL(AghanimSDK.GetExternalBuyLink(sku));
         }
 
         private void CreateItem(Item item)
