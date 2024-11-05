@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using Aghanim.Components;
+using UnityEngine;
 using UnityEngine.UI;
 
-namespace Aghanim.Components
+namespace Aghanim.Samples.Scripts
 {
     public class TokenText : MonoBehaviour
     {
@@ -10,7 +11,7 @@ namespace Aghanim.Components
 
         private void Awake()
         {
-            AghanimSDK.OnTokenReceived += OnTokenReceived;
+            AghanimSDK.onTokenReceived += OnTokenReceived;
         }
 
         private void OnTokenReceived(string token)

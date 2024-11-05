@@ -3,7 +3,7 @@ using Aghanim.Responses;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Samples
+namespace Aghanim.Samples.Scripts
 {
     public class SampleShopItem : MonoBehaviour
     {

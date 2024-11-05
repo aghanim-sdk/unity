@@ -24,22 +24,27 @@ namespace Aghanim.Components
         [DllImport("__Internal")]
         private static extern void Auth(string playerId, string playerName, string avatarUrl);
 
-        [SerializeField]
+        [SerializeField, Tooltip("Use {0} for player id and {1} for item sku")]
         private string ExternalBuyLink = "https://westland-survival-cowboy-rpg.aghanim.dev/go/checkout?player_id={0}&item_sku={1}";
-        [SerializeField]
+        [SerializeField, Tooltip("Session init endpoint on the game provider server")]
         private string InitEndpoint = "https://backend/api/session/init";
         [SerializeField, Space]
         private UnityEvent<SessionInitResponse> OnSessionInit;
+        [SerializeField, Space]
+        private UnityEvent<string> OnSessionInitError;
         
         private readonly Queue<Action<ItemList>> _itemsListListeners = new();
 
-        public static Action<string> OnTokenReceived = token => {};
-
-        private string _token;
+        public static Action<string> onTokenReceived = _ => {};
         
+        /// <summary>
+        /// Generates external purchase link.
+        /// </summary>
+        /// <param name="itemSku">The unique identifier for the item to be purchased.</param>
+        /// <returns>Link for Application.OpenURL()</returns>
         public static string GetExternalBuyLink(string itemSku)
         {
-            return string.Format(instance.ExternalBuyLink, instance._token, itemSku);
+            return string.Format(instance.ExternalBuyLink, instance.token, itemSku);
         }
 
         /// <summary>
@@ -115,23 +120,29 @@ namespace Aghanim.Components
             var uri = new Uri(Application.absoluteURL);
             var queryParams = HttpUtility.ParseQueryString(uri.Query);
         
-            _token = queryParams.Get("token");
+            token = queryParams.Get("token");
         
-            if (string.IsNullOrEmpty(_token)) 
+            if (string.IsNullOrEmpty(token)) 
             {
                 LogError("Missing 'token' parameter.");
                 return;
             }
 
-            OnTokenReceived(_token);
+            onTokenReceived(token);
         
-            ApiGet<SessionInitResponse>($"{InitEndpoint}{uri.Query}", SessionInitCallback);
+            ApiGet<SessionInitResponse>($"{InitEndpoint}{uri.Query}", SessionInitCallback, SessionInitError);
         }
 
         private void SessionInitCallback(SessionInitResponse sessionInitResponse) 
         {
             Log("The session was successfully initialized.");
             OnSessionInit?.Invoke(sessionInitResponse);
+        }
+        
+        private void SessionInitError(string error) 
+        {
+            LogError("Session initialization failed.");
+            OnSessionInitError?.Invoke(error);
         }
         
         private void Awake() 
