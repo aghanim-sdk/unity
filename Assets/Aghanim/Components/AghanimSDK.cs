@@ -8,6 +8,7 @@ using UnityEngine.Events;
 
 namespace Aghanim.Components
 {
+    [HelpURL("https://github.com/aghanim-sdk/unity")]
     public class AghanimSDK : AghanimProvider
     {
         private static AghanimSDK instance;
@@ -32,8 +33,11 @@ namespace Aghanim.Components
         private UnityEvent<SessionInitResponse> OnSessionInit;
         [SerializeField, Space]
         private UnityEvent<string> OnSessionInitError;
+        [SerializeField, Space]
+        private UnityEvent<OrderStatus> OnOrderStatusReceived;
         
         private readonly Queue<Action<ItemList>> _itemsListListeners = new();
+        private readonly Queue<Action<OrderStatus>> _orderStatusListeners = new();
 
         public static Action<string> onTokenReceived = _ => {};
         
@@ -72,9 +76,17 @@ namespace Aghanim.Components
         /// Initiates a purchase with the specified SKU.
         /// </summary>
         /// <param name="sku">The unique identifier for the item to be purchased.</param>
+        /// <param name="listener">The action to be executed when the status is retrieved.</param>
         public static void PurchaseItem(string sku)
         {
             Order(sku, string.Empty, string.Empty, string.Empty);
+        }
+
+        // ReSharper disable once UnusedMember.Global
+        public void OnItemPurchaseStatus(string orderJson)
+        {
+            var orderStatus = JsonUtility.FromJson<OrderStatus>(orderJson);
+            OnOrderStatusReceived?.Invoke(orderStatus);
         }
         
         /// <summary>

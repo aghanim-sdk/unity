@@ -20,6 +20,12 @@ window.addEventListener("message", (event) => {
         console.log(itemsJson);
         window.unityInstance.SendMessage("AghanimSDK", "OnItemsReceived", itemsJson);
     }
+    if (event.data.action === "itemPurchaseStatus") {
+        console.log('message itemPurchaseStatus');
+        const orderJson = JSON.stringify(event.data.order);
+        console.log(orderJson);
+        window.unityInstance.SendMessage("AghanimSDK", "OnItemPurchaseStatus", orderJson);
+    }
 });
 
 function appLoaded() {}

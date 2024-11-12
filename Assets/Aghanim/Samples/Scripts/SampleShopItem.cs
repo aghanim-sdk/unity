@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace Aghanim.Samples.Scripts
 {
+    [HelpURL("https://github.com/aghanim-sdk/unity#samples")]
     public class SampleShopItem : MonoBehaviour
     {
         [SerializeField]
