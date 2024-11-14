@@ -13,13 +13,14 @@
     let unityInstance;
 
     function onProgress(progress) {
-        console.log(progress);
+        window.parent.postMessage({ type: 'onProgress', progress: progress }, '*');
     }
     
     function onSuccess(newUnityInstance) {
         console.log("onSuccess");
         unityInstance = newUnityInstance;
         window.unityInstance = newUnityInstance;
+        window.parent.postMessage({ action: "onSuccess" }, "*");
     }
 
     function onError(message) {
