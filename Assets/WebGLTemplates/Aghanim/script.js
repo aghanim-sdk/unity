@@ -9,7 +9,7 @@ function getItems() {
 }
 
 function getUnhandledPaidOrders() {
-    console.log('call getItems()');
+    console.log('call getUnhandledPaidOrders()');
     window.parent.postMessage({ action: "getUnhandledPaidOrders" }, "*");
 }
 
@@ -31,8 +31,8 @@ window.addEventListener("message", (event) => {
         console.log(orderJson);
         window.unityInstance.SendMessage("AghanimSDK", "OnItemPurchaseStatus", orderJson);
     }
-    if (event.data.action === "unhandledPaidOrders") {
-        console.log('message itemPurchaseStatus');
+    if (event.data.action === "receiveUnhandledPaidOrders") {
+        console.log('message receiveUnhandledPaidOrders');
         const ordersJson = JSON.stringify(event.data.orders);
         console.log(ordersJson);
         window.unityInstance.SendMessage("AghanimSDK", "OnUnhandledPaidOrdersReceived", ordersJson);
