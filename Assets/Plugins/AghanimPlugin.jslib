@@ -8,6 +8,10 @@
     {
         getItems();
     },
+    GetUnhandledPaidOrders: function()
+    {
+        getUnhandledPaidOrders();
+    },
     Order: function(item, itemName, description, imageUrl)
     {
         order(UTF8ToString(item), UTF8ToString(itemName), UTF8ToString(description), UTF8ToString(imageUrl));

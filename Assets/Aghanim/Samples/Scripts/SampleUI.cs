@@ -12,6 +12,8 @@ namespace Aghanim.Samples.Scripts
         [SerializeField]
         private Button _getItemsButton;
         [SerializeField]
+        private Button _getUnhandledPaidOrdersButton;
+        [SerializeField]
         private Button _authorize1Button;
         [SerializeField]
         private Button _authorize2Button;
@@ -33,6 +35,7 @@ namespace Aghanim.Samples.Scripts
         private void Awake() 
         {
             _getItemsButton.onClick.AddListener(GetItems);
+            _getUnhandledPaidOrdersButton.onClick.AddListener(GetUnhandledPaidOrders);
             _authorize1Button.onClick.AddListener(AghanimSDK.Authorize);
             _authorize2Button.onClick.AddListener(OpenAuthorizeDialog);
             _buyItemButton.onClick.AddListener(OpenPurchaseItemDialog);
@@ -48,6 +51,16 @@ namespace Aghanim.Samples.Scripts
             ClearItems();
             itemList.items.ForEach(CreateItem);
             itemList.items.ForEach(CreateExternalItem);
+        }
+        
+        private void GetUnhandledPaidOrders()
+        {
+            AghanimSDK.GetUnhandledPaidOrders(OnItemsReceived);
+        }
+        
+        private void OnItemsReceived(OrderStatusList orderStatusList)
+        {
+            orderStatusList.orders.ForEach(o => Debug.Log($"Order: {o.order_id} SKU:{o.item_sku}"));
         }
 
         private void BuyItem(string sku) 

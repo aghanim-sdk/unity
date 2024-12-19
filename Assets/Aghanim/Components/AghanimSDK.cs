@@ -18,6 +18,9 @@ namespace Aghanim.Components
         
         [DllImport("__Internal")]
         private static extern void GetItemsList();
+        
+        [DllImport("__Internal")]
+        private static extern void GetUnhandledPaidOrders();
     
         [DllImport("__Internal")]
         private static extern void Order(string item, string itemName, string description, string imageUrl);
@@ -37,6 +40,7 @@ namespace Aghanim.Components
         private UnityEvent<OrderStatus> OnOrderStatusReceived;
         
         private readonly Queue<Action<ItemList>> _itemsListListeners = new();
+        private readonly Queue<Action<OrderStatusList>> _unhandledPaidOrdersListeners = new();
         private readonly Queue<Action<OrderStatus>> _orderStatusListeners = new();
 
         public static Action<string> onTokenReceived = _ => {};
@@ -59,6 +63,16 @@ namespace Aghanim.Components
         {
             instance._itemsListListeners.Enqueue(listener);
             GetItemsList();
+        }
+
+        /// <summary>
+        /// Retrieves a list of orders and adds a listener to handle the result once the list is available.
+        /// </summary>
+        /// <param name="listener">The action to be executed when the orders list is retrieved.</param>
+        public static void GetUnhandledPaidOrders(Action<OrderStatusList> listener)
+        {
+            instance._unhandledPaidOrdersListeners.Enqueue(listener);
+            GetUnhandledPaidOrders();
         }
         
         // ReSharper disable once UnusedMember.Global
@@ -87,6 +101,13 @@ namespace Aghanim.Components
         {
             var orderStatus = JsonUtility.FromJson<OrderStatus>(orderJson);
             OnOrderStatusReceived?.Invoke(orderStatus);
+        }
+        
+        // ReSharper disable once UnusedMember.Global
+        public void OnUnhandledPaidOrdersReceived(string unhandledPaidOrdersJson)
+        {
+            //var orderStatus = JsonUtility.FromJson<OrderStatus>(orderJson);
+            //OnOrderStatusReceived?.Invoke(orderStatus);
         }
         
         /// <summary>
