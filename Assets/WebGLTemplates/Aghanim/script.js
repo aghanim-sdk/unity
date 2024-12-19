@@ -8,6 +8,11 @@ function getItems() {
     window.parent.postMessage({ action: "getItems" }, "*");
 }
 
+function getUnhandledPaidOrders() {
+    console.log('call getItems()');
+    window.parent.postMessage({ action: "getUnhandledPaidOrders" }, "*");
+}
+
 function auth(player_id, player_name, avatar_url) {
     console.log('call auth()');
     window.parent.postMessage({ action: "auth", player: player_id, name: player_name, avatar: avatar_url }, "*");
@@ -25,6 +30,12 @@ window.addEventListener("message", (event) => {
         const orderJson = JSON.stringify(event.data.order);
         console.log(orderJson);
         window.unityInstance.SendMessage("AghanimSDK", "OnItemPurchaseStatus", orderJson);
+    }
+    if (event.data.action === "unhandledPaidOrders") {
+        console.log('message itemPurchaseStatus');
+        const ordersJson = JSON.stringify(event.data.orders);
+        console.log(ordersJson);
+        window.unityInstance.SendMessage("AghanimSDK", "OnUnhandledPaidOrdersReceived", ordersJson);
     }
 });
 
