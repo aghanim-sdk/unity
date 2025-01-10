@@ -18,6 +18,16 @@ function auth(player_id, player_name, avatar_url) {
     window.parent.postMessage({ action: "auth", player: player_id, name: player_name, avatar: avatar_url }, "*");
 }
 
+function AppsFlyer_sendEvent(eventName, eventValue) {
+    console.log('call AppsFlyerEvent()');
+    window.parent.postMessage({ action: "AppsFlyerEvent", eventName: eventName, eventValue: eventValue }, "*");
+}
+
+function AppsFlyer_setCustomerUserId(userId) {
+    console.log('call AppsFlyer_setCustomerUserId()');
+    window.parent.postMessage({ action: "AppsFlyer_setCustomerUserId", userId: userId }, "*");
+}
+
 window.addEventListener("message", (event) => {
     if (event.data.action === "receiveItems") {
         console.log('message receiveItems');
