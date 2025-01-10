@@ -18,9 +18,9 @@ function auth(player_id, player_name, avatar_url) {
     window.parent.postMessage({ action: "auth", player: player_id, name: player_name, avatar: avatar_url }, "*");
 }
 
-function AppsFlyer_sendEvent(eventName, eventValue) {
+function AppsFlyer_sendEvent(eventName, eventValueString) {
     console.log('call AppsFlyerEvent()');
-    window.parent.postMessage({ action: "AppsFlyerEvent", eventName: eventName, eventValue: eventValue }, "*");
+    window.parent.postMessage({ action: "AppsFlyerEvent", eventName: eventName, eventValue: JSON.parse(eventValueString) }, "*");
 }
 
 function AppsFlyer_setCustomerUserId(userId) {
