@@ -27,6 +27,10 @@ namespace Aghanim.Components
         
         [DllImport("__Internal")]
         private static extern void Auth(string playerId, string playerName, string avatarUrl);
+        [DllImport("__Internal")]
+        private static extern void AppsFlyerSendEvent(string eventName, string eventValueString);
+        [DllImport("__Internal")]
+        private static extern void AppsFlyerSetCustomerUserId(string userId);
 
         [SerializeField, Tooltip("Use {0} for player id and {1} for item sku")]
         private string ExternalBuyLink = "https://westland-survival-cowboy-rpg.aghanim.dev/go/checkout?player_id={0}&item_sku={1}";
@@ -44,6 +48,37 @@ namespace Aghanim.Components
         private readonly Queue<Action<OrderStatus>> _orderStatusListeners = new();
 
         public static Action<string> onTokenReceived = _ => {};
+        
+        public static class AppsFlyer
+        {
+            /// <summary>
+            /// Sends an event to AppsFlyer for tracking.
+            /// </summary>
+            /// <param name="eventName">The name of the event to track.</param>
+            /// <param name="eventParameters">The object containing event-specific parameters.</param>
+            public static void SendEvent<T>(string eventName, T eventParameters)
+            {
+                if (string.IsNullOrEmpty(eventName))
+                {
+                    throw new ArgumentException("Event name cannot be null or empty", nameof(eventName));
+                }
+                if (eventParameters == null)
+                {
+                    throw new ArgumentNullException(nameof(eventParameters), "Event parameters cannot be null");
+                }
+                var eventValueString = JsonUtility.ToJson(eventParameters);
+                AppsFlyerSendEvent(eventName, eventValueString);
+            }
+            
+            /// <summary>
+            /// Sets the customer user ID in AppsFlyer.
+            /// </summary>
+            /// <param name="userId">The unique identifier of the user.</param>
+            public static void SetCustomerUserId(string userId)
+            {
+                AppsFlyerSetCustomerUserId(userId);
+            }
+        }
         
         /// <summary>
         /// Generates external purchase link.
@@ -106,8 +141,12 @@ namespace Aghanim.Components
         // ReSharper disable once UnusedMember.Global
         public void OnUnhandledPaidOrdersReceived(string unhandledPaidOrdersJson)
         {
-            //var orderStatus = JsonUtility.FromJson<OrderStatus>(orderJson);
-            //OnOrderStatusReceived?.Invoke(orderStatus);
+            var orderStatusList = JsonUtility.FromJson<OrderStatusList>(unhandledPaidOrdersJson);
+            
+            while (_unhandledPaidOrdersListeners.Count > 0)
+            {
+                _unhandledPaidOrdersListeners.Dequeue()?.Invoke(orderStatusList);
+            }
         }
         
         /// <summary>

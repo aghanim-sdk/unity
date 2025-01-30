@@ -20,6 +20,14 @@
     {
         auth(UTF8ToString(playerId), UTF8ToString(playerName), UTF8ToString(avatarUrl));
     },
+    AppsFlyerSendEvent(eventName, eventValueString)
+    {
+        AppsFlyer_sendEvent(eventName, eventValueString);
+    },
+    AppsFlyerSetCustomerUserId(userId)
+    {
+        AppsFlyer_setCustomerUserId(userId);
+    },
 };
 
 mergeInto(LibraryManager.library, plugin);
