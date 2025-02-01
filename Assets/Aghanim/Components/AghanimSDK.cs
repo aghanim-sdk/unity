@@ -32,6 +32,9 @@ namespace Aghanim.Components
         [DllImport("__Internal")]
         private static extern void AppsFlyerSetCustomerUserId(string userId);
 
+        [DllImport("__Internal")]
+        private static extern void CallReloadPage();
+
         [SerializeField, Tooltip("Use {0} for player id and {1} for item sku")]
         private string ExternalBuyLink = "https://westland-survival-cowboy-rpg.aghanim.dev/go/checkout?player_id={0}&item_sku={1}";
         [SerializeField, Tooltip("Session init endpoint on the game provider server")]
@@ -183,6 +186,14 @@ namespace Aghanim.Components
         public static void Authorize(string playerId, string playerName, string avatarUrl)
         {
             Auth(playerId, playerName, avatarUrl);
+        }
+        
+        /// <summary>
+        /// Reloads the current page.
+        /// </summary>
+        public static void ReloadPage()
+        {
+            CallReloadPage();
         }
         
         private void Start()

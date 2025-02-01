@@ -12,6 +12,8 @@ namespace Aghanim.Samples.Scripts
         [SerializeField]
         private Button _getItemsButton;
         [SerializeField]
+        private Button _reloadPageButton;
+        [SerializeField]
         private Button _getUnhandledPaidOrdersButton;
         [SerializeField]
         private Button _authorize1Button;
@@ -39,11 +41,17 @@ namespace Aghanim.Samples.Scripts
             _authorize1Button.onClick.AddListener(AghanimSDK.Authorize);
             _authorize2Button.onClick.AddListener(OpenAuthorizeDialog);
             _buyItemButton.onClick.AddListener(OpenPurchaseItemDialog);
+            _reloadPageButton.onClick.AddListener(ReloadPage);
         }
 
         private void GetItems()
         {
             AghanimSDK.GetItems(OnItemsReceived);
+        }
+
+        private void ReloadPage()
+        {
+            AghanimSDK.ReloadPage();
         }
 
         private void OnItemsReceived(ItemList itemList)

@@ -28,6 +28,11 @@ function AppsFlyer_setCustomerUserId(userId) {
     window.parent.postMessage({ action: "AppsFlyer_setCustomerUserId", userId: userId }, "*");
 }
 
+function reloadPage() {
+    console.log('call reloadPage()');
+    window.parent.postMessage({ action: "reloadPage" }, "*");
+}
+
 window.addEventListener("message", (event) => {
     if (event.data.action === "receiveItems") {
         console.log('message receiveItems');
