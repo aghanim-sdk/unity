@@ -20,13 +20,17 @@
     {
         auth(UTF8ToString(playerId), UTF8ToString(playerName), UTF8ToString(avatarUrl));
     },
-    AppsFlyerSendEvent(eventName, eventValueString)
+    AppsFlyerSendEvent: function(eventName, eventValueString)
     {
         AppsFlyer_sendEvent(eventName, eventValueString);
     },
-    AppsFlyerSetCustomerUserId(userId)
+    AppsFlyerSetCustomerUserId: function(userId)
     {
         AppsFlyer_setCustomerUserId(userId);
+    },
+    CallReloadPage: function()
+    {
+        reloadPage();
     },
 };
 
